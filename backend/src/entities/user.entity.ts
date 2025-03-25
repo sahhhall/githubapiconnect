@@ -6,10 +6,10 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ unique: true })
+    @Column()
     githubId: number;
 
-    @Column({ unique: true })
+    @Column()
     login: string;
 
     @Column({ nullable: true })
@@ -52,7 +52,7 @@ export class User {
     updatedAt: Date;
 
     @DeleteDateColumn()
-    deletedAt: Date;
+    deletedAt?: Date;
 
     @OneToMany(() => Friend, (friend) => friend.user)
     friends: Friend[];

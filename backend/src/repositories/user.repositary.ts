@@ -6,8 +6,15 @@ import { GithubUserType } from "../types/user.types";
 const userRepo = myDataSource.getRepository(User);
 
 export const findUserByLogin = async (login: string) => {
-    return await userRepo.findOne({ where: { login } });
+    return await userRepo.findOne({
+        where: { login: login }
+    });
+
 };
+
+export const softDelelte = async (login: string) => {
+    return await userRepo.softDelete({ login: login })
+}
 
 export const createUserInDB = async (githubData: GithubUserType) => {
     const user = userRepo.create({
@@ -35,9 +42,9 @@ export const findUsersWithPagination = async (search: string, page: number = 1, 
 
     const [users, total] = await userRepo.findAndCount({
         where: [
-            { login: ILike(`%${search}%`), deletedAt: IsNull() },
-            { name: ILike(`%${search}%`), deletedAt: IsNull() },
-            { location: ILike(`%${search}%`), deletedAt: IsNull() },
+            { login: ILike(`%${search}%`) },
+            { name: ILike(`%${search}%`) },
+            { location: ILike(`%${search}%`) },
         ],
         skip,
         take: limit,

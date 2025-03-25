@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import axios from "axios";
-import { findUserByLogin, createUserInDB, findUsersWithPagination } from "../repositories/user.repositary";
+import { findUserByLogin, createUserInDB, findUsersWithPagination, softDelelte } from "../repositories/user.repositary";
 import { GithubFollower, GithubUserType } from "../types/user.types";
 import { BadRequestError, NotFoundError } from "../utills/errors";
 import { HttpStatusCodes } from "../constants/http-status-code";
@@ -68,7 +68,7 @@ export const getFriends = async (req: Request, res: Response, next: NextFunction
 
         await saveFriendsForUser(user, mutualFriends);
 
-        res.json({ friends: mutualFriends });
+        res.status(HttpStatusCodes.OK).json({ friends: mutualFriends });
     } catch (error) {
         console.error("Error fetching friends:", error);
         next(error)
@@ -87,7 +87,25 @@ export const searchUsers = async (req: Request, res: Response, next: NextFunctio
             throw new BadRequestError("Search query is required")
         }
         const result = await findUsersWithPagination(search as string, page, limit);
-        res.json(result);
+        res.status(HttpStatusCodes.OK).json(result);
+    } catch (error) {
+        next(error)
+    }
+};
+
+
+export const softDeleteUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { username } = req.params;
+
+        const user = await findUserByLogin(username)
+
+        if (!user) {
+            throw new NotFoundError("User not found")
+        }
+
+        await softDelelte(username)
+        res.status(HttpStatusCodes.NO_CONTENT).json({ message: 'User soft deleted successfully' });
     } catch (error) {
         next(error)
     }
