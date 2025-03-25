@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import axios from "axios";
-import { findUserByLogin, createUserInDB } from "../repositories/user.repositary";
+import { findUserByLogin, createUserInDB, findUsersWithPagination } from "../repositories/user.repositary";
 import { GithubFollower, GithubUserType } from "../types/user.types";
 import { BadRequestError, NotFoundError } from "../utills/errors";
 import { HttpStatusCodes } from "../constants/http-status-code";
@@ -39,7 +39,6 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
 
 
 // get friends controller
-
 export const getFriends = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { username } = req.params;
@@ -76,3 +75,20 @@ export const getFriends = async (req: Request, res: Response, next: NextFunction
     }
 };
 
+
+
+// search 
+export const searchUsers = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { search } = req.query;
+        const page = parseInt(req.query.page as string) || 1;
+        const limit = parseInt(req.query.limit as string) || 10;
+        if (!search) {
+            throw new BadRequestError("Search query is required")
+        }
+        const result = await findUsersWithPagination(search as string, page, limit);
+        res.json(result);
+    } catch (error) {
+        next(error)
+    }
+};
