@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import axios from "axios";
-import { findUserByLogin, createUserInDB, findUsersWithPagination, softDelelte, getSortByCondition } from "../repositories/user.repositary";
+import { findUserByLogin, createUserInDB, findUsersWithPagination, softDelelte, getSortByCondition, findOneAndUpdate } from "../repositories/user.repositary";
 import { GithubFollower, GithubUserType } from "../types/user.types";
 import { BadRequestError, NotFoundError } from "../utills/errors";
 import { HttpStatusCodes } from "../constants/http-status-code";
@@ -113,8 +113,6 @@ export const softDeleteUser = async (req: Request, res: Response, next: NextFunc
 };
 
 
-
-
 export const sortUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { sort } = req.query;
@@ -125,3 +123,13 @@ export const sortUser = async (req: Request, res: Response, next: NextFunction) 
         next(error)
     }
 }
+
+export const updateUserProfile = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { username } = req.params;
+        const user = await findOneAndUpdate(username, req.body)
+        res.status(HttpStatusCodes.OK).json(user)
+    } catch (error) {
+        next(error)
+    }
+};

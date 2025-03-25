@@ -2,7 +2,7 @@ import { ILike, IsNull, Like } from "typeorm";
 import { myDataSource } from "../config/app-data-source";
 import { User } from "../entities/user.entity";
 import { GithubUserType } from "../types/user.types";
-import { BadRequestError } from "../utills/errors";
+import { BadRequestError, NotFoundError } from "../utills/errors";
 
 const userRepo = myDataSource.getRepository(User);
 
@@ -36,6 +36,16 @@ export const createUserInDB = async (githubData: GithubUserType) => {
     return await userRepo.save(user);
 };
 
+export const findOneAndUpdate = async (login: string, updates: unknown) => {
+    const user = await userRepo.findOne({
+        where: { login: login }
+    })
+    if (!user) {
+        throw new NotFoundError("User not found");
+    }
+    Object.assign(user, updates);
+    return await userRepo.save(user);
+}
 
 
 export const findUsersWithPagination = async (search: string, page: number = 1, limit: number = 10) => {
@@ -70,3 +80,5 @@ export const getSortByCondition = async (sortBy: string, order: "ASC" | "DESC" =
         }
     });
 };
+
+
