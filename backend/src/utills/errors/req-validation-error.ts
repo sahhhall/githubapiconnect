@@ -8,8 +8,9 @@ export class RequestValidationError extends CustomErr {
     }
 
     serializeError() {
+        console.log(this.errors, "this.errors from reqeustvalidation error")
         return this.errors.map((err) => {
-            return {
+            return {    
                 message: `invalid ${err.property}`
             }
         })

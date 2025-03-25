@@ -1,5 +1,8 @@
 import { DataSource } from 'typeorm'
 import 'dotenv/config'
+import { User } from '../entities/user.entity'
+import { Friend } from '../entities/friend.entity'
+import { DatabaseConnectionError } from '../utills/errors'
 
 const myDataSource = new DataSource({
   type: 'postgres',
@@ -9,6 +12,7 @@ const myDataSource = new DataSource({
   password: process.env.DB_PASSWORD as string,
   database: process.env.DB_NAME as string,
   logging: true,
+  entities: [User, Friend],
   synchronize: process.env.NODE_ENV !== 'production'
 })
 
@@ -18,8 +22,7 @@ const connectDB = async () => {
     console.log('Connected to PostgreSQL database')
     return myDataSource
   } catch (error) {
-    console.error('Database connection failed:', error)
-    throw error
+    throw new DatabaseConnectionError()
   }
 }
 

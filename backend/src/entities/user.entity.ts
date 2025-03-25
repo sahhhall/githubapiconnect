@@ -42,6 +42,9 @@ export class User {
     @Column({ default: false })
     isDeleted: boolean;
 
+    @Column()
+    joined: Date;
+
     @CreateDateColumn()
     createdAt: Date;
 
