@@ -1,1 +1,1 @@
-import { GithubUserType } from "./user.types";
+export * from './validation-err.type'
