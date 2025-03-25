@@ -1,7 +1,7 @@
 import { ILike, IsNull, Like } from "typeorm";
 import { myDataSource } from "../config/app-data-source";
 import { User } from "../entities/user.entity";
-import { GithubUserType } from "../types/user.types";
+import { IGithubUserType } from "../types/user.types";
 import { BadRequestError, NotFoundError } from "../utills/errors";
 
 const userRepo = myDataSource.getRepository(User);
@@ -17,7 +17,7 @@ export const softDelelte = async (login: string) => {
     return await userRepo.softDelete({ login: login })
 }
 
-export const createUserInDB = async (githubData: GithubUserType) => {
+export const createUserInDB = async (githubData: IGithubUserType) => {
     const user = userRepo.create({
         githubId: githubData.id,
         login: githubData.login,

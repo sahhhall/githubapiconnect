@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import axios from "axios";
 import { findUserByLogin, createUserInDB, findUsersWithPagination, softDelelte, getSortByCondition, findOneAndUpdate } from "../repositories/user.repositary";
-import { GithubFollower, GithubUserType } from "../types/user.types";
+import { IGithubFollower, IGithubUserType } from "../types/user.types";
 import { BadRequestError, NotFoundError } from "../utills/errors";
 import { HttpStatusCodes } from "../constants/http-status-code";
 import { saveFriendsForUser } from "../repositories/friend.repositary";
@@ -17,7 +17,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
 
         if (!existingUser) {
             const { data } = await axios.get(`${process.env.GITHUB_API}/${username}`);
-            const githubData = data as GithubUserType;
+            const githubData = data as IGithubUserType;
             existingUser = await createUserInDB(githubData);
         }
         if (!existingUser) {
@@ -50,7 +50,7 @@ export const getFriends = async (req: Request, res: Response, next: NextFunction
         console.log(`Fetching mutual friends for ${username} from GitHub...`);
 
         const { data } = await axios.get(`${process.env.GITHUB_API}/${username}`);
-        const githubData = data as GithubUserType;
+        const githubData = data as IGithubUserType;
 
         // fetching followers and following 
         const [followersRes, followingRes] = await Promise.all([
@@ -59,8 +59,8 @@ export const getFriends = async (req: Request, res: Response, next: NextFunction
         ]);
 
 
-        const followersData = followersRes.data as GithubFollower[];
-        const followingData = followingRes.data as GithubFollower[]
+        const followersData = followersRes.data as IGithubFollower[];
+        const followingData = followingRes.data as IGithubFollower[]
         const followers = new Set(followersData.map(user => user.login));
         const following = followingData.map(user => user.login);
 
