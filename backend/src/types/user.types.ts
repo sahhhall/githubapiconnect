@@ -1,5 +1,5 @@
 
-export interface GithubUserType {
+export interface IGithubUserType {
     id?: number;
     login: string;
     name?: string;
@@ -18,7 +18,7 @@ export interface GithubUserType {
 }
 
 
-export interface GithubFollower {
+export interface IGithubFollower {
     login: string;
     id: number;
     node_id: string;
