@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import axios from "axios";
-import { findUserByLogin, createUserInDB, findUsersWithPagination, softDelelte } from "../repositories/user.repositary";
+import { findUserByLogin, createUserInDB, findUsersWithPagination, softDelelte, getSortByCondition } from "../repositories/user.repositary";
 import { GithubFollower, GithubUserType } from "../types/user.types";
 import { BadRequestError, NotFoundError } from "../utills/errors";
 import { HttpStatusCodes } from "../constants/http-status-code";
@@ -44,6 +44,7 @@ export const getFriends = async (req: Request, res: Response, next: NextFunction
         const { username } = req.params;
 
         const user = await findUserByLogin(username);
+        console.log(user, "user")
         if (!user) throw new NotFoundError("Username not found");
 
         console.log(`Fetching mutual friends for ${username} from GitHub...`);
@@ -110,3 +111,17 @@ export const softDeleteUser = async (req: Request, res: Response, next: NextFunc
         next(error)
     }
 };
+
+
+
+
+export const sortUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { sort } = req.query;
+        console.log("hi from")
+        const user = await getSortByCondition(sort as string)
+        res.status(HttpStatusCodes.OK).json(user);
+    } catch (error) {
+        next(error)
+    }
+}

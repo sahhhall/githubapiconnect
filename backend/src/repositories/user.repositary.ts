@@ -2,6 +2,7 @@ import { ILike, IsNull, Like } from "typeorm";
 import { myDataSource } from "../config/app-data-source";
 import { User } from "../entities/user.entity";
 import { GithubUserType } from "../types/user.types";
+import { BadRequestError } from "../utills/errors";
 
 const userRepo = myDataSource.getRepository(User);
 
@@ -51,4 +52,21 @@ export const findUsersWithPagination = async (search: string, page: number = 1, 
     });
 
     return { users, total, totalPages: Math.ceil(total / limit), page, limit };
+};
+
+
+
+export const getSortByCondition = async (sortBy: string, order: "ASC" | "DESC" = "DESC"): Promise<User[]> => {
+    const allowedSortFields = ["public_gists", "followers", "following", "joined", "createdAt"];
+
+    if (!allowedSortFields.includes(sortBy)) {
+        throw new BadRequestError("Invalid sort field")
+    }
+
+    return await userRepo.find({
+        where: { deletedAt: IsNull() },
+        order: {
+            [sortBy]: order
+        }
+    });
 };
