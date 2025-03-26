@@ -83,3 +83,6 @@ export const getSortByCondition = async (sortBy: string, order: "ASC" | "DESC" =
 };
 
 
+export const fetchAllUsers = async () => {
+    return await userRepo.find()
+}

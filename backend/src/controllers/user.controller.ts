@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import axios from "axios";
-import { findUserByLogin, createUserInDB, findUsersWithPagination, softDelelte, getSortByCondition, findOneAndUpdate } from "../repositories/user.repositary";
+import { findUserByLogin, createUserInDB, findUsersWithPagination, softDelelte, getSortByCondition, findOneAndUpdate, fetchAllUsers } from "../repositories/user.repositary";
 import { IGithubFollower, IGithubUserType } from "../types/user.types";
 import { BadRequestError, NotFoundError } from "../utills/errors";
 import { HttpStatusCodes } from "../constants/http-status-code";
@@ -136,6 +136,16 @@ export const updateUserProfile = async (req: Request, res: Response, next: NextF
         const { username } = req.params;
         const user = await findOneAndUpdate(username, req.body)
         res.status(HttpStatusCodes.OK).json(user)
+    } catch (error) {
+        next(error)
+    }
+};
+
+
+export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const users = await fetchAllUsers();
+        res.status(HttpStatusCodes.OK).json(users)
     } catch (error) {
         next(error)
     }
