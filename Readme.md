@@ -72,11 +72,11 @@ npm install
 Create `.env` in backend:
 ```
 PORT=3001
-DB_HOST=localhost
-DB_PORT=
-DB_USERNAME=
-DB_PASSWORD=
-DB_NAME=""
+PGHOST=localhost
+PGPORT=5432
+PGUSER=
+PGPASSWORD=
+PGDATABASE=
 FRONTEND_URL=http://localhost:5173
 GITHUB_API=https://api.github.com/users
 ```
