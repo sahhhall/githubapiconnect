@@ -11,9 +11,20 @@ export const userApi = apiSlice.injectEndpoints({
                 method: 'POST',
                 body
             })
+        }),
+        fetchAllUsers: builder.query<any, any>({
+            query: () => ({
+                url: '/all'
+            })
+        }),
+        softDeleteUser: builder.mutation<any, any>({
+            query: (username) => ({
+                url: `/${username}`,
+                method: "DELETE",
+            }),
         })
     })
 });
 
 
-export const { useFetchUserMutation } = userApi;
+export const { useFetchUserMutation, useFetchAllUsersQuery, useSoftDeleteUserMutation } = userApi;

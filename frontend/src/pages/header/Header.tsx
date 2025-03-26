@@ -8,7 +8,7 @@ import {
 } from "../../redux/slices/curruserSlice";
 import { useAppDispatch } from "../../hooks/useAppStore";
 
-const Header = () => {
+const Header = ({ setExplore }: { setExplore: (value: boolean) => void }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const dispatch = useAppDispatch();
   const [searchUser, { isLoading: isSearching, error }] =
@@ -20,6 +20,7 @@ const Header = () => {
 
     try {
       dispatch(setLoading(true));
+      setExplore(false);
       const userData = await searchUser({ username: trimmedQuery }).unwrap();
       setSearchQuery("");
       dispatch(setCurrentUser(userData));
@@ -78,7 +79,7 @@ const Header = () => {
           <button>Pull requests</button>
           <button>Issues</button>
           <button>Marketplace</button>
-          <button>Explore</button>
+          <button onClick={() => setExplore(true)}>Explore</button>
         </div>
       </div>
     </header>

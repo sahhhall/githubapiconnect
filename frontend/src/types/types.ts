@@ -156,3 +156,15 @@ export type UserGitHubData = {
 };
 
 
+
+
+// Modal
+
+export type ModalProps = {
+    isOpen: boolean;
+    onClose: () => void;
+    title: string;
+    children: React.ReactNode;
+    confirmText?: string;
+    onConfirm?: () => void;
+};
