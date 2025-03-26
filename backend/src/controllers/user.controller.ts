@@ -134,8 +134,9 @@ export const sortUser = async (req: Request, res: Response, next: NextFunction) 
 export const updateUserProfile = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { username } = req.params;
-        const user = await findOneAndUpdate(username, req.body)
-        res.status(HttpStatusCodes.OK).json(user)
+        await findOneAndUpdate(username, req.body)
+        let updates = req.body;
+        res.status(HttpStatusCodes.OK).json({ message: "User updated successfully", user: updates })
     } catch (error) {
         next(error)
     }

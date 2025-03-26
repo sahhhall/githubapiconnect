@@ -6,7 +6,12 @@ import {
 import "./explore.css";
 import Modal from "../../components/ui/Modal";
 const Explore = () => {
-  const { data: users, isLoading, isError } = useFetchAllUsersQuery({});
+  const {
+    data: users,
+    isLoading,
+    isError,
+    refetch: refetchUserData,
+  } = useFetchAllUsersQuery({});
   const [softDeleteUser] = useSoftDeleteUserMutation();
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -25,6 +30,7 @@ const Explore = () => {
     try {
       await softDeleteUser(selectedUser).unwrap();
       alert("User soft deleted successfully.");
+      refetchUserData();
       setIsModalOpen(false);
     } catch (error) {
       console.error("Failed to delete user:", error);
