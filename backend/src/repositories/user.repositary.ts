@@ -21,6 +21,7 @@ export const createUserInDB = async (githubData: IGithubUserType) => {
     const user = userRepo.create({
         githubId: githubData.id,
         login: githubData.login,
+        avatar: githubData.avatar_url,
         name: githubData.name,
         location: githubData.location,
         blog: githubData.blog,

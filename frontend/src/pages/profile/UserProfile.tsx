@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { BadgeCheck, LoaderIcon, ArrowLeft } from "lucide-react";
 import "./userprofile.css";
-import img from "../../assets/fall.webp";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppStore";
-import { dummyUser } from "../../utill/test.data";
+// import { dummyUser } from "../../utill/test.data";
 import RepoDetails from "./RepoDetails";
 import { useFetchUserMutation } from "../../services/api/userApi";
 import {
@@ -19,7 +18,7 @@ const UserProfile = () => {
 
   const { currentUser, isLoading } = useAppSelector((state) => ({
     isLoading: state.user.isLoading,
-    currentUser: dummyUser,
+    currentUser: state.user.currentUser,
   }));
   const dispatch = useAppDispatch();
 
@@ -116,24 +115,25 @@ const UserProfile = () => {
         <ArrowLeft size={20} />
       </button>
       <h2>Followers ({currentUser.user.followers || 0})</h2>
-      {(currentUser.followersList || []).map((follower, index) => (
-        <div
-          key={index}
-          className="follower-card"
-          onClick={() => handleUserClick(follower.login)}
-          style={{ cursor: "pointer" }}
-        >
-          <img
-            src={img}
-            alt={`${follower.login}'s avatar`}
-            className="follower-avatar"
-          />
-          <div className="follower-info">
-            <h3 style={{ margin: 0 }}>{follower.login}</h3>
-            <p style={{ margin: 0 }}>{follower.name || "GitHub User"}</p>
+      {currentUser &&
+        currentUser.followersList.map((follower, index) => (
+          <div
+            key={index}
+            className="follower-card"
+            onClick={() => handleUserClick(follower.login)}
+            style={{ cursor: "pointer" }}
+          >
+            <img
+              src={follower.avatar_url}
+              alt={`${follower.login}'s avatar`}
+              className="follower-avatar"
+            />
+            <div className="follower-info">
+              <h3 style={{ margin: 0 }}>{follower.login}</h3>
+              <p style={{ margin: 0 }}>{follower.login || "GitHub User"}</p>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
     </div>
   );
 
@@ -142,7 +142,10 @@ const UserProfile = () => {
       <div className="side-1">
         <div className="profile-header">
           <div className="profile-avatar">
-            <img src={img} alt={`${currentUser.user.name}'s avatar`} />
+            <img
+              src={currentUser.user.avatar as string}
+              alt={`${currentUser.user.name}'s avatar`}
+            />
           </div>
           <div className="profile-info">
             <h1>{currentUser.user.name}</h1>

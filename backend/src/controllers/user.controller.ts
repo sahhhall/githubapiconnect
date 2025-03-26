@@ -6,6 +6,7 @@ import { BadRequestError, NotFoundError } from "../utills/errors";
 import { HttpStatusCodes } from "../constants/http-status-code";
 import { saveFriendsForUser } from "../repositories/friend.repositary";
 
+const GITHUB_API = process.env.GITHUB_API;
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { username } = req.body;
@@ -25,10 +26,15 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
         }
         /// it not ideal becasue trip size is large it will affect network 
         // requirement is Do not make API call again to get repositories details page.
-        let repos;
-        // repos = (await axios.get(`${process.env.GITHUB_API}/${username}/repos`)).data;
-        // console.log(existingUser, repos)
-        res.status(HttpStatusCodes.CREATED).send({ user: existingUser, repos });
+        const [repos, followers] = await Promise.all([
+            axios.get(`${GITHUB_API}/${username}/repos`),
+            axios.get(`${GITHUB_API}/${username}/followers`)
+        ]);
+        console.log(existingUser, repos)
+        res.status(HttpStatusCodes.CREATED).send({
+            user: existingUser, repos: repos.data,
+            followersList: followers.data
+        });
     } catch (error) {
         console.error("Error creating user:", error);
         next(error)
