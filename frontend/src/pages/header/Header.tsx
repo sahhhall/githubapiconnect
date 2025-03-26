@@ -1,18 +1,13 @@
 import React, { useState } from "react";
 import "./header.css";
 import { useFetchUserMutation } from "../../services/api/userApi";
-import {
-  setCurrentUser,
-  setError,
-  setLoading,
-} from "../../redux/slices/curruserSlice";
+import { setCurrentUser, setLoading } from "../../redux/slices/curruserSlice";
 import { useAppDispatch } from "../../hooks/useAppStore";
 
 const Header = ({ setExplore }: { setExplore: (value: boolean) => void }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const dispatch = useAppDispatch();
-  const [searchUser, { isLoading: isSearching, error }] =
-    useFetchUserMutation();
+  const [searchUser, { isLoading: isSearching }] = useFetchUserMutation();
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     const trimmedQuery = searchQuery.trim();

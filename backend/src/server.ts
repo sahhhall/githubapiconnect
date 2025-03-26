@@ -1,6 +1,7 @@
 import express from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
+import 'express-async-errors';
 import { config } from 'dotenv'
 import { connectDB } from './config/app-data-source'
 import userRoutes from './routes/user.routes'
