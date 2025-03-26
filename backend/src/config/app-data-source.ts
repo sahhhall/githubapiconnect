@@ -6,14 +6,17 @@ import { DatabaseConnectionError } from '../utills/errors'
 
 const myDataSource = new DataSource({
   type: 'postgres',
-  host: process.env.DB_HOST as string,
-  port: parseInt(process.env.DB_PORT as string) || 5432,
-  username: process.env.DB_USERNAME as string,
-  password: process.env.DB_PASSWORD as string,
-  database: process.env.DB_NAME as string,
-  logging: true,
+  host: process.env.PGHOST,
+  port: parseInt(process.env.PGPORT || '5432'),
+  username: process.env.PGUSER,
+  password: process.env.PGPASSWORD,
+  database: process.env.PGDATABASE,
+  logging: process.env.NODE_ENV !== 'production',
   entities: [User, Friend],
-  synchronize: process.env.NODE_ENV !== 'production'
+  synchronize: process.env.NODE_ENV !== 'production',
+  ssl: {
+    rejectUnauthorized: false
+  }
 })
 
 const connectDB = async () => {
