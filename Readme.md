@@ -1,6 +1,6 @@
-# 🚀 GitHub User Management System
+# GitHub User Management System
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Backend:
 - Node.js (Express.js)
@@ -14,7 +14,7 @@
 - Redux
 - CSS
 
-## ✨ Features
+## Features
 
 ### Backend Features
 1. **Fetch and Store GitHub User Data**
@@ -49,7 +49,7 @@
 - `GET /api/users/:username/friends` - Get mutual friends
 - `POST /api/users` - Create new user
 
-## 🚀 Installation & Setup
+## Installation & Setup
 
 ### 1. Clone Repository
 ```bash
@@ -83,7 +83,7 @@ GITHUB_API=https://api.github.com/users
 
 Frontend `.env`:
 ```
-VITE_BASE_URL=http://localhost:3001/api/users
+VITE_BASE_URL=backendapi
 ```
 
 ### 4. Run Application
