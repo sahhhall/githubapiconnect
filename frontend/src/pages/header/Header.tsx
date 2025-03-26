@@ -24,8 +24,13 @@ const Header = ({ setExplore }: { setExplore: (value: boolean) => void }) => {
       const userData = await searchUser({ username: trimmedQuery }).unwrap();
       setSearchQuery("");
       dispatch(setCurrentUser(userData));
-    } catch (error) {
-      dispatch(setError("User not found"));
+    } catch (error: any) {
+      // dispatch(setError("User not found"));
+      if (error.status === 500) {
+        alert("internal server err(visit after sometime)");
+      } else {
+        alert("no user found with this name try again");
+      }
 
       console.error("Failed to fetch user:", error);
     }
@@ -55,7 +60,7 @@ const Header = ({ setExplore }: { setExplore: (value: boolean) => void }) => {
               onChange={(e) => setSearchQuery(e.target.value)}
               disabled={isSearching}
               style={{
-                border: error ? ".7px solid red" : "1px solid #ccc",
+                // border: error ? ".7px solid red" : "1px solid #ccc",
                 outline: "none",
                 padding: "8px",
                 borderRadius: "4px",
@@ -79,7 +84,7 @@ const Header = ({ setExplore }: { setExplore: (value: boolean) => void }) => {
           <button>Pull requests</button>
           <button>Issues</button>
           <button>Marketplace</button>
-          <button onClick={() => setExplore(true)}>Explore</button>
+          <button onClick={() => setExplore(true)}>Explore users</button>
         </div>
       </div>
     </header>
