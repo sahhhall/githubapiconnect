@@ -11,8 +11,8 @@ import { useAppDispatch } from "../../hooks/useAppStore";
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const dispatch = useAppDispatch();
-  const [searchUser, { isLoading: isSearching }] = useFetchUserMutation();
-
+  const [searchUser, { isLoading: isSearching, error }] =
+    useFetchUserMutation();
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     const trimmedQuery = searchQuery.trim();
@@ -21,9 +21,11 @@ const Header = () => {
     try {
       dispatch(setLoading(true));
       const userData = await searchUser({ username: trimmedQuery }).unwrap();
+      setSearchQuery("");
       dispatch(setCurrentUser(userData));
     } catch (error) {
       dispatch(setError("User not found"));
+
       console.error("Failed to fetch user:", error);
     }
   };
@@ -51,7 +53,21 @@ const Header = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               disabled={isSearching}
+              style={{
+                border: error ? ".7px solid red" : "1px solid #ccc",
+                outline: "none",
+                padding: "8px",
+                borderRadius: "4px",
+              }}
             />
+            {/* {error && (
+              <span style={{ color: "red" }}>
+                {"data" in error && error.data
+                  ? (error.data as { errors?: { message: string }[] })
+                      .errors?.[0]?.message
+                  : "An error occurred"}
+              </span>
+            )} */}
             <button type="submit" disabled={isSearching}>
               {isSearching ? "Searching..." : "Search"}
             </button>

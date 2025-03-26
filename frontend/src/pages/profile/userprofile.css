@@ -43,8 +43,24 @@
   justify-content: space-around;
 }
 
+.visit-profile {
+  color: rgb(0, 0, 0);
+  border: none;
+  padding: 10px 16px;
+  font-size: 12px;
+  font-weight: normal;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.visit-profile:hover {
+  background: rgb(235, 235, 235);
+}
+
 .bio {
   margin: 0;
+  font-size: 14px;
+  letter-spacing: .3px;
 }
 
 .profile-actions {
@@ -164,7 +180,6 @@
   border-radius: 6px;
   cursor: pointer;
 }
-
 
 .back-button:active {
   transform: scale(0.98);

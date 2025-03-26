@@ -148,7 +148,7 @@ const UserProfile = () => {
             />
           </div>
           <div className="profile-info">
-            <h1>{currentUser.user.name}</h1>
+            <h1 style={{paddingTop:'12px'}}>{currentUser.user.name}</h1>
             <p style={{ margin: 0 }}>@{currentUser.user.login}</p>
             <p className="bio">{currentUser.user.bio}</p>
             <div className="profile-stats">
@@ -166,7 +166,7 @@ const UserProfile = () => {
               </div>
             </div>
             <div className="profile-actions">
-              <button className="edit-profile">Edit profile</button>
+              <button className="visit-profile">Visit profile</button>
             </div>
           </div>
         </div>

@@ -39,7 +39,7 @@ const RepoDetails: React.FC<RepoProps> = ({ repo }) => {
           <p><strong>Last Updated:</strong> {new Date(repo.updated_at).toLocaleDateString()}</p>
         </div>
 
-        <button className="set-up-button" onClick={handleRedirect}>
+        <button className="checkout-btn" onClick={handleRedirect}>
           Check out Repository
         </button>
       </div>

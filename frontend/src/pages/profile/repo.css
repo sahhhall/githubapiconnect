@@ -22,7 +22,7 @@
 }
 
 .repo-info {
-    display: flex;
+  display: flex;
 }
 
 .app-details {
@@ -66,4 +66,18 @@
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 12px;
+}
+
+.checkout-btn {
+  color: rgb(0, 0, 0);
+  border: none;
+  padding: 10px 16px;
+  font-size: 12px;
+  font-weight: normal;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.checkout-btn:hover {
+  background: rgb(235, 235, 235);
 }
