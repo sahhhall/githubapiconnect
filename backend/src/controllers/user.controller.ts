@@ -25,8 +25,9 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
         }
         /// it not ideal becasue trip size is large it will affect network 
         // requirement is Do not make API call again to get repositories details page.
-        const repos = (await axios.get(`${process.env.GITHUB_API}/${username}/repos`)).data;
-        console.log(existingUser, repos)
+        let repos;
+        // repos = (await axios.get(`${process.env.GITHUB_API}/${username}/repos`)).data;
+        // console.log(existingUser, repos)
         res.status(HttpStatusCodes.CREATED).send({ user: existingUser, repos });
     } catch (error) {
         console.error("Error creating user:", error);

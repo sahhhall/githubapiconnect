@@ -1,0 +1,69 @@
+.application-card {
+  width: 90%;
+  overflow: hidden;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.repo-container-logo {
+  width: 120px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.repo-profile {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+
+.repo-info {
+    display: flex;
+}
+
+.app-details {
+  padding: 20px;
+  flex-grow: 1;
+}
+
+.app-details h2 {
+  color: #586069;
+  font-size: 14px;
+  margin-bottom: 5px;
+  font-weight: 400;
+}
+
+.app-details h1 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #24292e;
+}
+
+.description,
+.sub-description {
+  color: #586069;
+  font-size: 14px;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.app-meta {
+  margin-bottom: 15px;
+}
+
+.topics {
+  display: flex;
+  gap: 8px;
+}
+
+.topic {
+  background-color: #f1f8ff;
+  color: #0366d6;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}

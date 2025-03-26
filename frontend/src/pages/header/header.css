@@ -1,0 +1,58 @@
+.github-header {
+  padding: 16px;
+  border-bottom: 1px solid #d1d1d1;
+  color: #c9d1d9;
+}
+
+.header-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+
+.logo-search {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.github-logo {
+  fill: #c9d1d9;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+}
+
+.search-form input {
+  border: 0.2px beige solid;
+  padding: 5px 12px;
+  border-radius: 6px 0 0 6px;
+  width: 300px;
+}
+
+
+.search-form button {
+  padding: 5px 12px;
+  border: 0.2px beige solid;
+  border-radius: 0 6px 6px 0;
+  cursor: pointer;
+}
+
+.header-actions {
+  display: flex;
+  gap: 15px;
+}
+
+.header-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.header-actions button:hover {
+  color: #58a6ff;
+}
