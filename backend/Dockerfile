@@ -7,7 +7,7 @@ RUN npm install -g npm
 WORKDIR /app
 
 
-COPY package.json package-lock.yaml ./
+COPY package.json package-lock.json ./
 
 
 RUN npm install 
