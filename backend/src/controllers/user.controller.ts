@@ -7,6 +7,7 @@ import { HttpStatusCodes } from "../constants/http-status-code";
 import { saveFriendsForUser } from "../repositories/friend.repositary";
 
 const GITHUB_API = process.env.GITHUB_API;
+const GITHUB_TOKEN = (process.env.GITHUB_TOKEN as string);
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { username } = req.body;
@@ -17,7 +18,11 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
         let existingUser = await findUserByLogin(username);
 
         if (!existingUser) {
-            const { data } = await axios.get(`${process.env.GITHUB_API}/${username}`);
+            const { data } = await axios.get(`${process.env.GITHUB_API}/${username}`, {
+                headers: {
+                    Authorization: `token ${GITHUB_TOKEN}`,
+                },
+            });
             const githubData = data as IGithubUserType;
             existingUser = await createUserInDB(githubData);
         }

@@ -13,7 +13,10 @@ const myDataSource = new DataSource({
   database: process.env.PGDATABASE,
   logging: process.env.NODE_ENV !== 'production',
   entities: [User, Friend],
-  synchronize: process.env.NODE_ENV !== 'production'
+  synchronize: process.env.NODE_ENV !== 'production',
+  ssl: {
+    rejectUnauthorized: false
+  }
 })
 
 const connectDB = async () => {
