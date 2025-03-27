@@ -8,6 +8,10 @@ import { saveFriendsForUser } from "../repositories/friend.repositary";
 
 const GITHUB_API = process.env.GITHUB_API;
 const GITHUB_TOKEN = (process.env.GITHUB_TOKEN as string);
+
+const axiosConfig = {
+    headers: { Authorization: `token ${GITHUB_TOKEN}` },
+};
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { username } = req.body;
@@ -18,11 +22,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
         let existingUser = await findUserByLogin(username);
 
         if (!existingUser) {
-            const { data } = await axios.get(`${process.env.GITHUB_API}/${username}`, {
-                headers: {
-                    Authorization: `token ${GITHUB_TOKEN}`,
-                },
-            });
+            const { data } = await axios.get(`${GITHUB_API}/${username}`, axiosConfig);
             const githubData = data as IGithubUserType;
             existingUser = await createUserInDB(githubData);
         }
@@ -32,8 +32,8 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
         /// it not ideal becasue trip size is large it will affect network 
         // requirement is Do not make API call again to get repositories details page.
         const [repos, followers] = await Promise.all([
-            axios.get(`${GITHUB_API}/${username}/repos`),
-            axios.get(`${GITHUB_API}/${username}/followers`)
+            axios.get(`${GITHUB_API}/${username}/repos`, axiosConfig),
+            axios.get(`${GITHUB_API}/${username}/followers`, axiosConfig),
         ]);
         console.log(existingUser, repos)
         res.status(HttpStatusCodes.CREATED).send({
@@ -61,13 +61,13 @@ export const getFriends = async (req: Request, res: Response, next: NextFunction
 
         console.log(`Fetching mutual friends for ${username} from GitHub...`);
 
-        const { data } = await axios.get(`${process.env.GITHUB_API}/${username}`);
+        const { data } = await axios.get(`${GITHUB_API}/${username}`, axiosConfig);
         const githubData = data as IGithubUserType;
 
         // fetching followers and following 
         const [followersRes, followingRes] = await Promise.all([
-            axios.get(githubData.followers_url as string),
-            axios.get((githubData.following_url as string).replace("{/other_user}", ""))
+            axios.get(githubData.followers_url as string, axiosConfig),
+            axios.get((githubData.following_url as string).replace("{/other_user}", ""), axiosConfig)
         ]);
 
 
